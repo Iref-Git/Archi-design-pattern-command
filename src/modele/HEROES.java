@@ -1,0 +1,10 @@
+package modele;
+
+public enum HEROES {
+	DRAKAN,
+	DUELIST,
+	HEROELF,
+	HUNTERONDIN,
+	WARRIORDWARF,
+	WHITEMAGE
+}
