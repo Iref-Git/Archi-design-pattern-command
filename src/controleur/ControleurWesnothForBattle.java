@@ -1,8 +1,11 @@
 package controleur;
 
+import java.util.Stack;
+
 import com.sun.media.jfxmedia.logging.Logger;
 
 import architecture.Controleur;
+import controleur.commande.CommandeDeployerHero;
 import donnee.Exporteur;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -18,10 +21,12 @@ import modele.MONSTRES;
 import modele.Monstre;
 import modele.TERRAINS;
 import vue.VueWesnothForBattle;
+import controleur.commande.*;
 
 public class ControleurWesnothForBattle extends Controleur{
 	
 	protected Heroes heroes = new Heroes();
+	protected Stack<Commande> historique = new Stack<Commande>();
 
 	public ControleurWesnothForBattle()
 	{
@@ -44,11 +49,16 @@ public class ControleurWesnothForBattle extends Controleur{
 	}
 
 	public void notifierClicChamp(double x, double y) {
+		Commande commande = new CommandeDeployerHero(monstreChoisit,x,y);
+		commande.executer();
+		historique.add(commande);
+		
 		HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
 		this.heroes.getHero().add(nouveauHero);
 		VueWesnothForBattle.getInstance().PlacerChampHeroes(this.heroChoisie,x,y);
+		/*
 		Monstre monstre = new Monstre(this.monstreChoisit, x, y);
-		VueWesnothForBattle.getInstance().PlacerChampMonstre(monstreChoisit, x, y);
+		VueWesnothForBattle.getInstance().PlacerChampMonstre(monstreChoisit, x, y);*/
 	}
 	public void notifierChangerChamp(TERRAINS bataille) {
 		
