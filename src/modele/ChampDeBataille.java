@@ -26,9 +26,15 @@ public class ChampDeBataille implements Exportable{
 	public void ajouterMonstre(Monstre monstre) {
 		this.monstre.add(monstre);
 	}
+	public void supprimerMonstre(Monstre monstre) {
+		this.monstre.remove(monstre);
+	}
 	
 	public void ajouterHero(HeroDeBataille hero) {
 		heroes.add(hero);
+	}
+	public void supprimerHero(HeroDeBataille hero) {
+		this.heroes.remove(hero);
 	}
 	public NomBataille getNom() {
 		return this.nom;

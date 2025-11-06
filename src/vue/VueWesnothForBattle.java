@@ -1,4 +1,6 @@
 package vue;
+import java.util.HashMap;
+
 import com.sun.media.jfxmedia.logging.Logger;
 
 import architecture.Vue;
@@ -25,6 +27,7 @@ public class VueWesnothForBattle extends Vue {
 
 	protected ControleurWesnothForBattle controleur;
 	protected static VueWesnothForBattle instance = null; 
+	protected HashMap<String, ImageView> listePersonnage = new HashMap<String, ImageView>();
 	public static VueWesnothForBattle getInstance() {if(null==instance)instance = new VueWesnothForBattle();return VueWesnothForBattle.instance;}; 
 	
 	private VueWesnothForBattle() 
@@ -45,6 +48,26 @@ public class VueWesnothForBattle extends Vue {
 			public void handle(ActionEvent e) {
 				System.out.println("Tu veux sauvegarder?");
 				controleur.notifierClicSauvegarder();
+				
+			}});
+		
+		Button actionAnnuler = (Button)lookup("#action-undo");
+		actionAnnuler.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				System.out.println("Undo");
+				controleur.notifierClicAnnuler();
+				
+			}});
+		
+		Button actionRedo = (Button)lookup("#action-redo");
+		actionRedo.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				System.out.println("Redo");
+				controleur.notifierClicRedo();
 				
 			}});
 		
@@ -173,7 +196,7 @@ public class VueWesnothForBattle extends Vue {
 		actionChoisirForest.setOnAction(new SelecteurDeBataille(controleur, TERRAINS.FORET));
 	}
 	
-	public void PlacerChampHeroes(HEROES heroes, double x, double y) {
+	public void placerChampHeroes(HEROES heroes, double x, double y) {
 		if(heroes == HEROES.DRAKAN) {
 			ImageView heroesPlacer = new ImageView(new Image("vue/decoration/heroes/drakan.png"));
 			heroesPlacer.setPreserveRatio(true);
@@ -181,6 +204,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -191,6 +215,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -201,6 +226,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -211,6 +237,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -221,6 +248,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -231,6 +259,7 @@ public class VueWesnothForBattle extends Vue {
 			heroesPlacer.setX(x-30);
 			heroesPlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,heroesPlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(heroesPlacer);
 		}
@@ -238,7 +267,7 @@ public class VueWesnothForBattle extends Vue {
 		
 	}
 	
-	public void PlacerChampMonstre(MONSTRES monstre, double x, double y) {
+	public void placerChampMonstre(MONSTRES monstre, double x, double y) {
 		if(monstre == MONSTRES.WRAITH) {
 			ImageView monstrePlacer = new ImageView(new Image("vue/decoration/monsters/Wraith.png"));
 			monstrePlacer.setPreserveRatio(true);
@@ -246,6 +275,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -256,6 +286,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -266,6 +297,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -276,6 +308,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -286,6 +319,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -296,6 +330,7 @@ public class VueWesnothForBattle extends Vue {
 			monstrePlacer.setX(x-30);
 			monstrePlacer.setY(y-50);
 			
+			listePersonnage.put(x+"-"+y,monstrePlacer);
 			AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
 			clotureVue.getChildren().add(monstrePlacer);
 		}
@@ -324,5 +359,11 @@ public class VueWesnothForBattle extends Vue {
 		AnchorPane zone = (AnchorPane)lookup("#jardin-cloture");
 		zone.setStyle(css);
 		System.out.println(css);
+	}
+
+	public void supprimerPersonnage( double x, double y) {
+		ImageView personnage = listePersonnage.get(x+"-"+y);
+		AnchorPane clotureVue = (AnchorPane)lookup("#jardin-cloture");
+		clotureVue.getChildren().remove(personnage);		
 	}
 }

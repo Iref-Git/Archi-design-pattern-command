@@ -1,5 +1,7 @@
 package controleur;
 
+import java.util.Stack;
+
 import com.sun.media.jfxmedia.logging.Logger;
 
 import architecture.Controleur;
@@ -25,9 +27,12 @@ public class ControleurWesnothForBattle extends Controleur{
 	protected Heroes heroes = new Heroes();
 	private HEROES heroChoisie = null;
 	private MONSTRES monstreChoisit = null;
-	private TERRAINS terrainChoisie = null;
+	private TERRAINS terrainChoisie = TERRAINS.PLAINE;;
 	private String nomBataille = null;
 	private ChampDeBataille bataille = new ChampDeBataille(terrainChoisie);
+	private Stack<Commande> commandes = new Stack<Commande>();
+	private Stack<Commande> annulations = new Stack<Commande>();
+	
 	public ControleurWesnothForBattle()
 	{
 		Logger.logMsg(Logger.INFO, "new ControleurJardinator()");
@@ -47,17 +52,19 @@ public class ControleurWesnothForBattle extends Controleur{
 
 	public void notifierClicChamp(double x, double y) {
 		if(heroChoisie != null) {
-			Commande commande = new CommandeDeployerPersonnage(heroChoisie,x,y);
-			HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
+			Commande commande = new CommandeDeployerPersonnage(heroChoisie,x,y, this.bataille);
+			//HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
 			//this.heroes.getHero().add(nouveauHero);
-			this.bataille.ajouterHero(nouveauHero);
+			//this.bataille.ajouterHero(nouveauHero);
+			commandes.add(commande);
 			commande.executer();
 			//VueWesnothForBattle.getInstance().PlacerChampHeroes(this.heroChoisie,x,y);
 		}
 		if(monstreChoisit != null) {
-			Commande commande = new CommandeDeployerPersonnage(monstreChoisit,x,y);
-			Monstre monstre = new Monstre(this.monstreChoisit, x, y);
-			this.bataille.ajouterMonstre(monstre);
+			Commande commande = new CommandeDeployerPersonnage(monstreChoisit,x,y, this.bataille);
+			//Monstre monstre = new Monstre(this.monstreChoisit, x, y);
+			//this.bataille.ajouterMonstre(monstre);
+			commandes.add(commande);
 			commande.executer();
 			//VueWesnothForBattle.getInstance().PlacerChampMonstre(monstreChoisit, x, y);
 		}
@@ -65,8 +72,9 @@ public class ControleurWesnothForBattle extends Controleur{
 	}
 	public void notifierChangerChamp(TERRAINS bataille) {
 		Commande commande = new CommandeChangerChampDeBataille(this.bataille, bataille);
-		this.bataille.setBataille(bataille);
+		//this.bataille.setBataille(bataille);
 		//this.heroes.setBataille(this.bataille);
+		commandes.add(commande);
 		commande.executer();
 		//VueWesnothForBattle.getInstance().afficherBataille(bataille);
 	}
@@ -130,6 +138,22 @@ public class ControleurWesnothForBattle extends Controleur{
 		Exporteur exporteur = new Exporteur();
 		System.out.println("allo");
 		exporteur.sauvegarder(this.bataille);
+	}
+	
+	public void notifierClicAnnuler() {
+		if(!commandes.empty()) {
+			Commande commande = commandes.pop();
+			annulations.add(commande);
+			commande.annuler();
+		}
+	}
+	
+	public void notifierClicRedo() {
+		if(!annulations.empty()) {
+			Commande commande = annulations.pop();
+			commandes.add(commande);
+			commande.executer();
+		}
 	}
 
 
