@@ -34,6 +34,7 @@ public class Exporteur {
 		
 		try
 		{
+			System.out.println("sauvegarde en cours");
 			FileWriter fichier = new FileWriter(NOM_FICHIER,false);
 			fichier.write(texte);
 			fichier.close();

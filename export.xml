@@ -1,1 +1,1 @@
-<sauvegarde><bataille><bataille>PLAINE</bataille><nomBataille>Legendary</nomBataille><hero><sorte>HEROELF</sorte><x>221.0</x><y>221.0</y></hero><hero><sorte>HEROELF</sorte><x>444.0</x><y>444.0</y></hero></bataille></sauvegarde>
+<sauvegarde><bataille><nomBataille>nom de bataille</nomBataille><hero><type>null</type><x>211.0</x><y>170.0</y></hero><hero><type>HEROELF</type><x>121.0</x><y>148.0</y></hero><hero><type>null</type><x>147.0</x><y>261.0</y></hero><hero><type>null</type><x>133.0</x><y>362.0</y></hero></bataille></sauvegarde>

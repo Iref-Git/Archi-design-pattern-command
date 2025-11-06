@@ -6,14 +6,22 @@ import modele.Monstre;
 import modele.HEROES;
 import vue.VueWesnothForBattle;
 
-public class CommandeDeployerHero extends Commande{
+public class CommandeDeployerPersonnage extends Commande{
 
 	private double x;
 	private double y;
 	private MONSTRES typeMonstre;
-	private Monstre monstre;
+	private HEROES typeHero;
 	
-	public CommandeDeployerHero(MONSTRES typeMonstre, double x, double y) {
+	public CommandeDeployerPersonnage(HEROES typeHero, double x, double y) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.typeHero = typeHero;
+		//this.monstre = new Monstre(typeMonstre, x, y);
+	}
+	
+	public CommandeDeployerPersonnage(MONSTRES typeMonstre, double x, double y) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -27,7 +35,12 @@ public class CommandeDeployerHero extends Commande{
 		//HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
 		//this.heroes.getHero().add(nouveauHero);
 		//VueWesnothForBattle.getInstance().PlacerChampHeroes(this.heroChoisie,x,y);
-		VueWesnothForBattle.getInstance().PlacerChampMonstre(typeMonstre, x, y);
+		if(this.typeHero != null) {
+			VueWesnothForBattle.getInstance().PlacerChampHeroes(typeHero, x, y);
+		}
+		if(this.typeMonstre != null) {
+			VueWesnothForBattle.getInstance().PlacerChampMonstre(typeMonstre, x, y);
+		}
 	}
 
 	@Override

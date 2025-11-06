@@ -1,15 +1,17 @@
 package controleur.commande;
 
 import modele.Champ;
+import modele.ChampDeBataille;
 import modele.TERRAINS;
+import vue.VueWesnothForBattle;
 
 public class CommandeChangerChampDeBataille extends Commande {
 
-	Champ champDeBataille;
+	ChampDeBataille champDeBataille;
 	TERRAINS terrain;
 	
 	
-	public CommandeChangerChampDeBataille(Champ champ, TERRAINS terrain) {
+	public CommandeChangerChampDeBataille(ChampDeBataille champ, TERRAINS terrain) {
 		super();
 		this.champDeBataille = champ;
 		this.terrain = terrain;
@@ -17,7 +19,7 @@ public class CommandeChangerChampDeBataille extends Commande {
 
 	@Override
 	public void executer() {
-		// TODO Auto-generated method stub
+		VueWesnothForBattle.getInstance().afficherBataille(terrain);
 		
 	}
 

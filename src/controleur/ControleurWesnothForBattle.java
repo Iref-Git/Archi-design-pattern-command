@@ -1,11 +1,9 @@
 package controleur;
 
-import java.util.Stack;
-
 import com.sun.media.jfxmedia.logging.Logger;
 
 import architecture.Controleur;
-import controleur.commande.CommandeDeployerHero;
+import controleur.commande.*;
 import donnee.Exporteur;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,13 +19,15 @@ import modele.MONSTRES;
 import modele.Monstre;
 import modele.TERRAINS;
 import vue.VueWesnothForBattle;
-import controleur.commande.*;
 
 public class ControleurWesnothForBattle extends Controleur{
 	
 	protected Heroes heroes = new Heroes();
-	protected Stack<Commande> historique = new Stack<Commande>();
-
+	private HEROES heroChoisie = null;
+	private MONSTRES monstreChoisit = null;
+	private TERRAINS terrainChoisie = null;
+	private String nomBataille = null;
+	private ChampDeBataille bataille = new ChampDeBataille(terrainChoisie);
 	public ControleurWesnothForBattle()
 	{
 		Logger.logMsg(Logger.INFO, "new ControleurJardinator()");
@@ -38,10 +38,7 @@ public class ControleurWesnothForBattle extends Controleur{
 	{
 		
 	}
-	HEROES heroChoisie = null;
-	MONSTRES monstreChoisit = null;
-	TERRAINS terrainChoisie = null;
-	String nomBataille = null;
+	
 	public void notifierClicDrakan() {
 		//VueWesnothForBattle.getInstance().PlacerChampDrakan();
 		this.heroChoisie = HEROES.DRAKAN;
@@ -49,21 +46,29 @@ public class ControleurWesnothForBattle extends Controleur{
 	}
 
 	public void notifierClicChamp(double x, double y) {
-		Commande commande = new CommandeDeployerHero(monstreChoisit,x,y);
-		commande.executer();
-		historique.add(commande);
+		if(heroChoisie != null) {
+			Commande commande = new CommandeDeployerPersonnage(heroChoisie,x,y);
+			HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
+			//this.heroes.getHero().add(nouveauHero);
+			this.bataille.ajouterHero(nouveauHero);
+			commande.executer();
+			//VueWesnothForBattle.getInstance().PlacerChampHeroes(this.heroChoisie,x,y);
+		}
+		if(monstreChoisit != null) {
+			Commande commande = new CommandeDeployerPersonnage(monstreChoisit,x,y);
+			Monstre monstre = new Monstre(this.monstreChoisit, x, y);
+			this.bataille.ajouterMonstre(monstre);
+			commande.executer();
+			//VueWesnothForBattle.getInstance().PlacerChampMonstre(monstreChoisit, x, y);
+		}
 		
-		HeroDeBataille nouveauHero = new HeroDeBataille(this.heroChoisie, x, y);
-		this.heroes.getHero().add(nouveauHero);
-		VueWesnothForBattle.getInstance().PlacerChampHeroes(this.heroChoisie,x,y);
-		/*
-		Monstre monstre = new Monstre(this.monstreChoisit, x, y);
-		VueWesnothForBattle.getInstance().PlacerChampMonstre(monstreChoisit, x, y);*/
 	}
 	public void notifierChangerChamp(TERRAINS bataille) {
-		
-		this.heroes.setBataille(new ChampDeBataille(bataille));
-		VueWesnothForBattle.getInstance().afficherBataille(bataille);
+		Commande commande = new CommandeChangerChampDeBataille(this.bataille, bataille);
+		this.bataille.setBataille(bataille);
+		//this.heroes.setBataille(this.bataille);
+		commande.executer();
+		//VueWesnothForBattle.getInstance().afficherBataille(bataille);
 	}
 /*
 	public void notifierClicDuelist() {
@@ -123,14 +128,15 @@ public class ControleurWesnothForBattle extends Controleur{
 	public void notifierClicSauvegarder() {
 		System.out.println("La sauvegarde s'en vient!");
 		Exporteur exporteur = new Exporteur();
-		exporteur.sauvegarder(this.heroes);
+		System.out.println("allo");
+		exporteur.sauvegarder(this.bataille);
 	}
 
 
 	public void notifierNomBataille(String text) {
 		System.out.println("Yo save name");
 		this.nomBataille = text;
-		this.heroes.setNomChoisie(new NomBataille(nomBataille));
+		this.bataille.setNom(new NomBataille(nomBataille));;
 	}
 
 

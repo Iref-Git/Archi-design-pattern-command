@@ -49,9 +49,9 @@ public class HeroDeBataille implements Exportable {
 
 	@Override
 	public String exporterXML() {
-		String xml = "<sorte>" + this.heroChoisie.toString() + "</sorte>";
+		String xml = "<type>" + heroChoisie + "</type>";
 		xml += "<x>" + this.x + "</x>";
-		xml += "<y>" + this.x + "</y>";
+		xml += "<y>" + this.y + "</y>";
 		return "<hero>" + xml + "</hero>";
 	}
 

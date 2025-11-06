@@ -1,6 +1,8 @@
 package modele;
 
-public class Monstre {
+import donnee.Exportable;
+
+public class Monstre implements Exportable {
 protected MONSTRES monstreChoisit;
 	
 	protected double x;
@@ -38,5 +40,17 @@ protected MONSTRES monstreChoisit;
 
 	public void setY(double y) {
 		this.y = y;
+	}
+	@Override
+	public String exporterXML() {
+		String xml = "<type>" + monstreChoisit + "</type>";
+		xml += "<x>" + this.x + "</x>";
+		xml += "<y>" + this.y + "</y>";
+		return "<monstre>" + xml + "</monstre>";
+	}
+	@Override
+	public String exporterJSON() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
